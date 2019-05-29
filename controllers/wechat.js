@@ -31,15 +31,20 @@ exports.wx_auth = (req, res) => {
 exports.wxEventParser = (req, res) => {
   switch(req.body.MsgType.toLowerCase()) {
     case 'text':
-      let back_msg = {
-        ToUserName: req.body.FromUserName,
-        FromUserName: req.body.ToUserName,
-        CreateTime: new Date().getTime(),
-        MsgType: 'text',
-        Content: req.body.Content + '(╯3╰)'
-      }
-      let builder = new xml2js.Builder({rootName: 'xml', cdata: true})
-      let xml = builder.buildObject(back_msg)
-      res.send(xml)
+      sendTextMsg(req, res)
   }
+}
+
+// 消息回复功能
+function sendTextMsg (req, res) {
+  let back_msg = {
+    ToUserName: req.body.FromUserName,
+    FromUserName: req.body.ToUserName,
+    CreateTime: new Date().getTime(),
+    MsgType: 'text',
+    Content: req.body.Content + '(╯3╰)'
+  }
+  let builder = new xml2js.Builder({rootName: 'xml', cdata: true})
+  let xml = builder.buildObject(back_msg)
+  res.send(xml)
 }
