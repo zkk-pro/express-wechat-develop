@@ -9,7 +9,7 @@ const wxToken = require('./access_token')
 
 module.exports = async (req, res, next) => {
   // 判断是否有 access_token 或 是否过期
-  if (!wxToken.wxAccessToken || wxToken.expires_time < new Date().getTime()) {
+  if (!wxToken.wxAccessToken || wxToken.wxAccessTokenExpires < new Date().getTime()) {
     console.log('access_token 已过期')
     let accessTokenApi = util.format(
       wxConfig.apiUrl.accessToken, 
